@@ -37,7 +37,9 @@ function loadCharacters(characterUrls) {
     const charactersList = document.getElementById('characters');
     if (!charactersList) return;
 
-    const characterPromises = characterUrls.map(url => fetchData(url).then(character => character?.name));
+    const localUrls = characterUrls.map(url => url.replace('https://swapi.dev/api/people/', '/api/people/'));
+
+    const characterPromises = localUrls.map(url => fetchData(url).then(character => character?.name));
     
     Promise.all(characterPromises).then(characterNames => {
         characterNames.forEach(name => {
@@ -50,7 +52,7 @@ function loadCharacters(characterUrls) {
     }).catch(error => console.error('Erro ao carregar personagens:', error));
 }
 
-// Obtem o ID do filme da URL
+// Obtm o ID do filme da URL
 function getFilmIdFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     return window.location.pathname.split('/').pop();

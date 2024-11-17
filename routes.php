@@ -23,6 +23,18 @@ return [
 
         $controller->getFilm($id);
     },
+    '/api/people/{id}/' => function ($params): void {
+        require_once __DIR__ . "/api/Controllers/PeopleController.php";
+        $controller = new \Api\Controllers\PeopleController();
+        $id = $params["id"] ?? null;
+
+        if (!is_numeric($id)) {
+            http_response_code(400);
+            echo "400 - Solicitação inválida";
+            exit;
+        }
+        $controller->getPersonDetails($id);
+    },
 
     // Rotas do App
     '/' => function (): void {

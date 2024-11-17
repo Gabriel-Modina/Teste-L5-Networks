@@ -8,7 +8,7 @@ require_once __DIR__ . '/../Models/AccessLogModel.php';
 use Api\Services\SwapiService;
 use Api\Models\AccessLogModel;
 
-class FilmController
+class PeopleController
 {
     private SwapiService $swapiService;
 
@@ -21,31 +21,16 @@ class FilmController
     }
 
     /**
-     * Rota catálogo
+     * Retorna o nome do personagem
      * @return void
      */
-    public function getFilms():void 
+    public function getPersonDetails($id):void 
     {
-        $this->accessLogModel->saveLog('/api/films');
+        $this->accessLogModel->saveLog('/api/people/'. $id);
 
-        $films = $this->swapiService->getFilms();
+        $films = $this->swapiService->getPersonDetails($id);
 
         header('Content-Type: application/json');
         echo json_encode($films);
-    }
-
-    /**
-     * Rota detalhes de um filme
-     * @param mixed $id
-     * @return void
-     */
-    public function getFilm($id):void
-    {
-        $this->accessLogModel->saveLog('/api/films/'. $id);
-
-        $film = $this->swapiService->getFilmDetails($id);
-
-        header('Content-Type: application/json');
-        echo json_encode($film);
     }
 }
