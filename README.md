@@ -26,7 +26,7 @@ Este projeto consiste em uma aplicação web que consome a API do Star Wars para
 ### Estrutura de Pastas e Arquivos
 
 A estrutura do projeto está organizada da seguinte forma:
-
+```
 Teste-L5-Networks/
 │
 ├── api/
@@ -59,7 +59,7 @@ Teste-L5-Networks/
 ├── index.php                       # Arquivo principal que direciona para as rotas configuradas, iniciando o ciclo de vida da aplicação.
 ├── README.md                       # Documentação do projeto, contendo informações sobre a configuração, uso e detalhes do projeto.
 └── routes.php                      # Arquivo que define as rotas da aplicação, direcionando as requisições para os Controllers apropriados.
-
+```
 
 ### Descrição dos Principais Componentes
 
@@ -72,10 +72,10 @@ Teste-L5-Networks/
 
 ### Funcionalidades Extras
 
-- 
 
 ### Como Rodar o Projeto
 
 ### Requisitos
 
 ### Instruções de Instalação
+
