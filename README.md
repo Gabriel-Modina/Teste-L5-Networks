@@ -1,59 +1,81 @@
-## Projeto APIService
+## Star Wars Movie Catalog
 
-Este componente de serviço é responsável pela integração com APIs externas, centralizando a lógica de consumo e tratamento de dados. O `ApiService` faz parte da camada de serviço da aplicação, permitindo uma interação mais modular e organizada com fontes de dados externas.
+Este projeto consiste em uma aplicação web que consome a API do Star Wars para exibir um catálogo de filmes da franquia Star Wars, permitindo aos usuários explorar detalhes sobre cada filme de forma interativa.
+
+### Funcionalidades
+
+1. **Catálogo de Filmes**: Exibe todos os filmes da franquia Star Wars ordenados por data de lançamento, mostrando o nome e a data de lançamento de cada um.
+2. **Detalhes do Filme**: Ao clicar em um filme, o usuário poderá visualizar informações detalhadas, incluindo:
+   - Nome
+   - Número do episódio
+   - Sinopse
+   - Data de lançamento
+   - Diretor(a)
+   - Produtor(es)
+   - Nome dos personagens
+3. **Navegação**: O usuário pode navegar entre o catálogo de filmes e a tela de detalhes de forma intuitiva, podendo voltar ao catálogo após visualizar os detalhes de um filme.
+
+### Arquitetura
+
+- **Backend**: Utiliza PHP com cURL para consumir a API do Star Wars e disponibilizar os dados através de endpoints próprios.
+- **Frontend**: Construído com HTML, CSS e JavaScript, com requisições para a API local.
+- **Banco de Dados**: MySQL para armazenar logs de interações com a API, incluindo:
+  - Data/hora da solicitação
+  - Tipo de solicitação realizada
 
 ### Estrutura de Pastas e Arquivos
 
 A estrutura do projeto está organizada da seguinte forma:
 
-```
 Teste-L5-Networks/
 │
-├── app/
-│   ├── config/
-│   │   └── Routes.php              # Configurações de rotas da aplicação
+├── api/
+│   ├── Controllers/
+│   │   └── FilmController.php      # Controller para gerenciar filmes, lidando com as requisições relacionadas a filmes, como listagem e detalhes.
 │   │
-│   ├── controllers/
-│   │   ├── FilmeController.php     # Controller para gerenciar filmes
-│   │   └── LogController.php       # Controller para gerenciar logs de interações
-│   │
-│   ├── logs/
-│   │   └── app.log                 # Arquivo de log para armazenar as interações com a API
-│   │
-│   ├── models/
-│   │   ├── FilmeModel.php          # Modelo para acessar dados dos filmes
-│   │   └── LogModel.php            # Modelo para registrar logs no banco de dados
-│   │
-│   ├── services/                   # Pasta para a lógica de consumo de APIs
-│   │   ├── ApiClient.php           # Cliente HTTP para interagir com APIs externas
-│   │   └── ApiService.php          # Serviço responsável pela lógica de consumo da API
-│   │
-│   └── sql/
-│       └── database.sql            # Dump do banco de dados com a estrutura inicial
+│   └── Services/                   # Pasta para a lógica de consumo de APIs externas
+│       ├── Clients
+│       │   └── SwapiClient.php      # Cliente HTTP para interagir com APIs externas, realizando as requisições necessárias.
+│       └── SwapiService.php         # Serviço responsável pela lógica de consumo da API, processando e formatando os dados recebidos da API.
 │
-├── views/
-│   ├── filme.php                   # Página de detalhes de um filme
-│   └── index.php                   # Página principal com o catálogo de filmes
+├── app/
+│   ├── Controllers/
+│   │   └── FilmeController.php     # Controller responsável pela interação entre a lógica de negócios e as views de filmes.
+│   │
+│   └── Views/
+│       ├── films.php               # Página de detalhes de um filme, exibindo informações específicas sobre um filme.
+│       └── index.php               # Página principal com o catálogo de filmes, apresentando uma lista de filmes disponíveis.
 │
 ├── public/
 │   └── static/
-│       ├── css/                    # Arquivos de estilo (CSS)
-│       ├── img/                    # Imagens utilizadas na aplicação
-│       └── js/                     # Scripts JavaScript para interações no frontend
+│       ├── css/                    # Arquivos de estilo (CSS) que definem a aparência da aplicação.
+│       ├── img/                    # Imagens utilizadas na aplicação, como cartazes de filmes.
+│       └── js/                     # Scripts JavaScript para interações no frontend, como navegação e exibição dinâmica.
+│          ├── films.js             # Script específico para funcionalidades da página de filmes.
+│          └── index.js             # Script específico para funcionalidades da página inicial, como filtragem de filmes.
 │
-├── .env                            # Arquivo de configuração para variáveis de ambiente
-├── .htaccess                       # Configurações de URL amigável e redirecionamento
-├── index.php                       # Arquivo principal que direciona para as rotas configuradas
-└── README.md                       # Documentação do projeto
-```
+├── .env                            # Arquivo de configuração para variáveis de ambiente, armazenando dados sensíveis e configurações específicas do ambiente.
+├── .htaccess                       # Configurações de URL amigável e redirecionamento, garantindo que as URLs sejam legíveis e fáceis de navegar.
+├── index.php                       # Arquivo principal que direciona para as rotas configuradas, iniciando o ciclo de vida da aplicação.
+├── README.md                       # Documentação do projeto, contendo informações sobre a configuração, uso e detalhes do projeto.
+└── routes.php                      # Arquivo que define as rotas da aplicação, direcionando as requisições para os Controllers apropriados.
+
 
 ### Descrição dos Principais Componentes
 
-- **`app/config/Routes.php`**: Define as rotas da aplicação e redireciona as requisições para os controllers correspondentes.
-- **`app/controllers/`**: Contém os controladores responsáveis por lidar com as requisições.
-- **`app/logs/`**: Armazena o arquivo `app.log`, que registra logs das interações do usuário com a API.
-- **`app/models/`**: Contém os modelos que fazem a conexão com a API do Star Wars e o banco de dados.
-- **`app/services/`**: Esta pasta contém a lógica de consumo da API, centralizando a comunicação com fontes externas.
-- **`app/sql/`**: Contém o arquivo `database.sql`, com a estrutura inicial do banco de dados.
-- **`views/`**: Arquivos de visualização que definem a interface do usuário para o catálogo de filmes e os detalhes de cada filme.
-- **`public/static/`**: Contém os arquivos estáticos de frontend, incluindo CSS, JavaScript e imagens.
+- **`api/Controllers/`**: Contém os controladores responsáveis por gerenciar as requisições relacionadas aos filmes.
+- **`api/Services/`**: Contém a lógica de consumo de APIs externas, centralizando a comunicação com fontes externas.
+  - **`Clients/`**: Subpasta que contém os clientes HTTP responsáveis por interagir com as APIs externas.
+- **`app/Controllers/`**: Contém os controladores responsáveis por lidar com as requisições.
+- **`app/Views/`**: Contém os arquivos de visualização (views) responsáveis pela interface de usuário da aplicação.
+- **`public/static/`**: Contém os arquivos estáticos de frontend, incluindo CSS, JavaScript e imagens, essenciais para o layout e interatividade da aplicação.
+
+### Funcionalidades Extras
+
+- 
+
+### Como Rodar o Projeto
+
+### Requisitos
+
+### Instruções de Instalação
