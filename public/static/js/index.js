@@ -26,6 +26,7 @@ function createFilmListItem(film) {
 
     listItem.innerHTML = `
         <h2>${film.title}</h2>
+        <img src="/public/static/img/films_cover/${film.episode_id}.jpg" alt="${film.title}" style="border-radius: 10px; width: 100%; height: auto;">
         <p><strong>Diretor:</strong> ${film.director}</p>
         <p><strong>Produtor:</strong> ${film.producer}</p>
         <p><strong>Data de Lançamento:</strong> ${new Date(film.release_date).toLocaleDateString()}</p>
@@ -34,6 +35,7 @@ function createFilmListItem(film) {
     
     return listItem;
 }
+
 
 // Exibe os filmes na página
 function displayFilms(films) {

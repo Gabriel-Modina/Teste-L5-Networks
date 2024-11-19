@@ -21,6 +21,9 @@ function loadFilmDetails(filmId) {
     fetchData(`/api/films/${filmId}`).then(film => {
         if (!film) return;
 
+        const img = document.getElementById('filmImage');
+        img.setAttribute('src','/public/static/img/films_cover/' + film.episode_id + '.jpg');
+
         updateElementContent('filmTitle', film.title);
         updateElementContent('episodeId', film.episode_id);
         updateElementContent('openingCrawl', film.opening_crawl);

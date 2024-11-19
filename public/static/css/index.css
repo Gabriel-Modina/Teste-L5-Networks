@@ -1,0 +1,108 @@
+/* Reset básico */
+body, h1, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Corpo geral */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #2d3e50;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+/* Lista de filmes */
+#filmList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Cada filme */
+#filmList li {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: calc(33.333% - 20px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Títulos dos filmes */
+#filmList li h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Descrições dos filmes */
+#filmList li p {
+    margin: 5px 0;
+    color: #555;
+}
+
+/* Links */
+#filmList li a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+}
+
+#filmList li a:hover {
+    text-decoration: underline;
+}
+
+/* Rodapé */
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: #555;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+    #filmList li {
+        width: calc(50% - 20px); /* 2 filmes por linha em telas médias */
+    }
+}
+
+@media (max-width: 768px) {
+    #filmList li {
+        width: 100%; /* 1 filme por linha em telas pequenas */
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px; /* Menos espaçamento em dispositivos muito pequenos */
+    }
+    
+    header {
+        padding: 15px; /* Menor espaçamento no cabeçalho */
+    }
+
+    #filmList li {
+        padding: 15px; /* Menos espaçamento nos filmes */
+    }
+
+    #filmList li h2 {
+        font-size: 16px; /* Tamanho de fonte menor em telas pequenas */
+    }
+}

@@ -30,52 +30,48 @@ A estrutura do projeto está organizada da seguinte forma:
 Teste-L5-Networks/
 │
 ├── api/
-│   ├── Controllers/
-│   │   └── FilmController.php      # Controller para gerenciar filmes, lidando com as requisições relacionadas a filmes, como listagem e detalhes.
-│   │
-│   └── Services/                   # Pasta para a lógica de consumo de APIs externas
-│       ├── Clients
-│       │   └── SwapiClient.php      # Cliente HTTP para interagir com APIs externas, realizando as requisições necessárias.
-│       └── SwapiService.php         # Serviço responsável pela lógica de consumo da API, processando e formatando os dados recebidos da API.
+│   ├── cache/                       # Armazena os dados temporários para reduzir o número de requisições à API externa.
+│   ├── Config/                      # Contém os arquivos de configuração da API, como configurações de conexão, parâmetros e variáveis globais.
+│   ├── Controllers/                 # Contém os controladores responsáveis por gerenciar as requisições HTTP e coordenar as interações com os modelos e as views.
+│   ├── Models/                      # Contém os modelos responsáveis pela estrutura de dados, como a manipulação de filmes e interações com o banco de dados.
+│   └── Services/                    # Pasta para a lógica de consumo de APIs externas, centralizando a comunicação com fontes externas, como a API do Star Wars.
+│       └── Clients/                 # Subpasta que contém os clientes HTTP responsáveis por interagir com as APIs externas.
 │
 ├── app/
-│   ├── Controllers/
-│   │   └── FilmeController.php     # Controller responsável pela interação entre a lógica de negócios e as views de filmes.
-│   │
-│   └── Views/
-│       ├── films.php               # Página de detalhes de um filme, exibindo informações específicas sobre um filme.
-│       └── index.php               # Página principal com o catálogo de filmes, apresentando uma lista de filmes disponíveis.
+│   ├── Controllers/                 # Contém os controladores responsáveis por lidar com as requisições da aplicação, interagindo com as views.
+│   └── Views/                       # Contém os arquivos de visualização (views) que geram o conteúdo HTML para ser exibido ao usuário.
 │
 ├── public/
 │   └── static/
-│       ├── css/                    # Arquivos de estilo (CSS) que definem a aparência da aplicação.
-│       ├── img/                    # Imagens utilizadas na aplicação, como cartazes de filmes.
-│       └── js/                     # Scripts JavaScript para interações no frontend, como navegação e exibição dinâmica.
-│          ├── films.js             # Script específico para funcionalidades da página de filmes.
-│          └── index.js             # Script específico para funcionalidades da página inicial, como filtragem de filmes.
+│       ├── css/                     # Arquivos de estilo (CSS) que definem a aparência e o layout da aplicação.
+│       ├── img/                     # Imagens utilizadas na aplicação, como cartazes de filmes, ícones e outros recursos gráficos.
+│       └── js/                      # Scripts JavaScript para interações no frontend, como navegação entre telas, carregamento dinâmico de dados e manipulação de eventos.
 │
-├── .env                            # Arquivo de configuração para variáveis de ambiente, armazenando dados sensíveis e configurações específicas do ambiente.
-├── .htaccess                       # Configurações de URL amigável e redirecionamento, garantindo que as URLs sejam legíveis e fáceis de navegar.
-├── index.php                       # Arquivo principal que direciona para as rotas configuradas, iniciando o ciclo de vida da aplicação.
-├── README.md                       # Documentação do projeto, contendo informações sobre a configuração, uso e detalhes do projeto.
-└── routes.php                      # Arquivo que define as rotas da aplicação, direcionando as requisições para os Controllers apropriados.
+├── .env                             # Arquivo de configuração para variáveis de ambiente, armazenando dados sensíveis (como credenciais) e configurações específicas do ambiente de desenvolvimento.
+├── .htaccess                        # Configurações de URL amigável e redirecionamento, garantindo que as URLs sejam legíveis e fáceis de navegar, além de permitir configurações de segurança.
+├── index.php                        # Arquivo principal da aplicação, que inicia o ciclo de vida da aplicação e direciona as requisições para as rotas apropriadas.
+├── install.md                       # Documento com instruções detalhadas sobre como instalar e configurar o projeto, incluindo dependências e requisitos.
+├── README.md                        # Documentação geral do projeto, fornecendo informações sobre a configuração, uso, dependências e objetivos do projeto.
+└── routes.php                       # Arquivo que define as rotas da aplicação, determinando como as requisições HTTP serão tratadas pelos controladores.
 ```
 
 ### Descrição dos Principais Componentes
 
-- **`api/Controllers/`**: Contém os controladores responsáveis por gerenciar as requisições relacionadas aos filmes.
-- **`api/Services/`**: Contém a lógica de consumo de APIs externas, centralizando a comunicação com fontes externas.
-  - **`Clients/`**: Subpasta que contém os clientes HTTP responsáveis por interagir com as APIs externas.
-- **`app/Controllers/`**: Contém os controladores responsáveis por lidar com as requisições.
-- **`app/Views/`**: Contém os arquivos de visualização (views) responsáveis pela interface de usuário da aplicação.
-- **`public/static/`**: Contém os arquivos estáticos de frontend, incluindo CSS, JavaScript e imagens, essenciais para o layout e interatividade da aplicação.
+- **`api/cache/`**: Armazena dados temporários que são utilizados para evitar consultas repetidas à API externa, melhorando a performance da aplicação.
+- **`api/Config/`**: Contém configurações como credenciais de acesso à API externa, parâmetros de conexão com o banco de dados, e outras variáveis de ambiente que são utilizadas no backend.
+- **`api/Controllers/`**: Responsável por gerenciar as requisições HTTP relacionadas aos filmes, redirecionando-as para os serviços apropriados ou renderizando as views.
+- **`api/Models/`**: Define as estruturas de dados relacionadas aos filmes e as interações com o banco de dados, como as operações de leitura, inserção e atualização de dados.
+- **`api/Services/`**: Implementa a lógica para consumir APIs externas. Aqui, a comunicação com a API do Star Wars e outros serviços externos é centralizada.
+  - **`Clients/`**: Contém classes que lidam diretamente com as chamadas HTTP para consumir dados das APIs externas.
+- **`app/Controllers/`**: Responsável por coordenar a lógica entre as requisições do frontend e o processamento no backend. Pode incluir autenticação, validação de dados, etc.
+- **`app/Views/`**: Contém os arquivos HTML gerados pelo backend, exibindo a interface do usuário e possibilitando a interação com a aplicação.
+- **`public/static/`**: Contém todos os recursos de frontend, como arquivos CSS para estilo, JavaScript para comportamento dinâmico e imagens que serão mostradas na interface do usuário.
 
 ### Funcionalidades Extras
+
+- **Cache das requisições para a API swapi.dev**: A aplicação implementa um sistema de cache para armazenar as respostas das requisições à API externa (swapi.dev), evitando chamadas repetidas e melhorando a performance, especialmente quando o usuário acessa os mesmos dados múltiplas vezes.
 
 
 ### Como Rodar o Projeto
 
-### Requisitos
-
-### Instruções de Instalação
-
+As instruções detalhadas sobre como rodar o projeto estão no arquivo `install.md`. Este arquivo contém todas as informações necessárias para configurar o ambiente, instalar dependências, configurar o banco de dados e iniciar a aplicação corretamente.

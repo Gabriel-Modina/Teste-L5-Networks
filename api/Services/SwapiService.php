@@ -11,47 +11,84 @@ use Api\Models\FilmModel;
 
 class SwapiService {
     private $swapiClient;
+    private $cacheDir = __DIR__ . '/../cache/'; // Diretório de cache
 
     public function __construct() {
         $this->swapiClient = new SwapiClient();
+        
+        if (!is_dir($this->cacheDir)) {
+            mkdir($this->cacheDir, 0777, true);
+        }
     }
 
     /**
      * Obtém todos os filmes ordenados por data de lançamento
+     * Primeiro verifica se existe no cache, caso contrário faz a solicitação e valida
      * @return mixed
      */
     public function getFilms(): mixed {
+        $cachedData = $this->getCache('films');
+
+        if ($cachedData) {
+            return $cachedData;
+        }
+
         $response = $this->swapiClient->get('films/');
         $films = $response['results'] ?? [];
 
-        // Validação dos filmes
         $validatedFilms = array_map([$this, 'validateFilmData'], $films);
 
         $validatedFilms = $this->sortFilmsByReleaseDate($validatedFilms);
+
+        $this->setCache('films', $validatedFilms);
+
         return $validatedFilms;
     }
 
     /**
      * Obtém os detalhes de um filme específico
+     * Primeiro verifica se existe no cache, caso contrário faz a solicitação e valida
      * @param mixed $id
      * @return mixed
      */
     public function getFilmDetails($id): mixed {
+        $cacheKey = 'film_' . $id;
+        $cachedData = $this->getCache($cacheKey);
+
+        if ($cachedData) {
+            return $cachedData;
+        }
+
         $response = $this->swapiClient->get('films/' . $id . '/');
 
-        // Validação do filme específico
-        return $this->validateFilmData($response);
+        $validatedFilm = $this->validateFilmData($response);
+
+        $this->setCache($cacheKey, $validatedFilm);
+
+        return $validatedFilm;
     }
 
     /**
      * Obtém os detalhes de uma pessoa específica
+     * Primeiro verifica se existe no cache, caso contrário faz a solicitação e valida
      * @param mixed $id
      * @return mixed
      */
     public function getPersonDetails($id): mixed {
+        $cacheKey = 'person_' . $id;
+        $cachedData = $this->getCache($cacheKey);
+
+        if ($cachedData) {
+            return $cachedData;
+        }
+
         $response = $this->swapiClient->get('people/' . $id . '/');
 
-        return $this->validatePersonData($response);
+        $validatedPerson = $this->validatePersonData($response);
+
+        $this->setCache($cacheKey, $validatedPerson);
+
+        return $validatedPerson;
     }
 
     /**
@@ -68,6 +105,7 @@ class SwapiService {
         $film->director = $filmData['director'] ?? '';
         $film->producer = $filmData['producer'] ?? '';
         $film->characters = $filmData['characters'] ?? [];
+        $film->release_date = $filmData['release_date'] ?? '';
         $film->url = $filmData['url'] ?? 'URL não disponível';
 
         return $film;
@@ -105,5 +143,31 @@ class SwapiService {
         });
 
         return $films;
+    }
+
+    /**
+     * Obtém dados do cache caso o arquivo de cache existe e não está expirado (1 hora)
+     * @param string $cacheKey
+     * @return mixed
+     */
+    private function getCache($cacheKey): mixed {
+        $cacheFile = $this->cacheDir . $cacheKey . '.json';
+
+        if (file_exists($cacheFile) && (time() - filemtime($cacheFile)) < 3600) {
+            return json_decode(file_get_contents($cacheFile), true);
+        }
+
+        return null;
+    }
+
+    /**
+     * Salva dados no cache
+     * @param string $cacheKey
+     * @param mixed $data
+     * @return void
+     */
+    private function setCache($cacheKey, $data): void {
+        $cacheFile = $this->cacheDir . $cacheKey . '.json';
+        file_put_contents($cacheFile, json_encode($data));
     }
 }
